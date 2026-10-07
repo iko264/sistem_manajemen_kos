@@ -176,3 +176,34 @@ main > *:nth-child(4) { animation-delay: .15s; }
 @media (prefers-reduced-motion: reduce) {
     .api-progress.active, .app-toast { animation: none; }
 }
+/* Halaman autentikasi */
+.auth-card { overflow: hidden; border-radius: 1.25rem; }
+.auth-aside {
+    background: linear-gradient(155deg, #075985 0%, #0284c7 55%, #14b8a6 100%);
+    color: #fff; position: relative; overflow: hidden;
+}
+.auth-aside::before, .auth-aside::after {
+    content: ''; position: absolute; border-radius: 50%; background: rgba(255, 255, 255, .1);
+}
+.auth-aside::before { width: 260px; height: 260px; right: -90px; top: -80px; }
+.auth-aside::after { width: 200px; height: 200px; left: -70px; bottom: -70px; }
+.auth-aside > * { position: relative; z-index: 1; }
+.auth-logo {
+    width: 56px; height: 56px; border-radius: 1rem; font-size: 1.6rem;
+    background: rgba(255, 255, 255, .2);
+    display: inline-flex; align-items: center; justify-content: center;
+}
+.auth-aside ul { list-style: none; padding: 0; margin: 0; }
+.auth-aside li { display: flex; gap: .6rem; align-items: flex-start; margin-bottom: .75rem; font-size: .92rem; }
+.auth-aside li i { color: #a5f3fc; }
+
+/* Input password dengan tombol tampil/sembunyi */
+.pw-wrap { position: relative; }
+.pw-wrap .form-control,
+.pw-wrap .form-control.is-invalid { padding-right: 2.9rem; background-image: none; }
+.pw-toggle {
+    position: absolute; top: 0; right: 0; width: 2.9rem;
+    height: calc(1.5em + 1.1rem + 2px);
+    border: 0; background: transparent; color: #5b7083;
+}
+.pw-toggle:hover { color: #0284c7; }
