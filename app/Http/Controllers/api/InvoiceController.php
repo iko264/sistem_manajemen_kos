@@ -30,7 +30,7 @@ class InvoiceController extends Controller
             ->when($f['room_id'] ?? null, fn ($q, $v) => $q->whereHas('tenancy', fn ($t) => $t->where('room_id', $v)))
             ->orderByDesc('period')
             ->orderByDesc('id')
-            ->paginate(ApiResponse::perPage())
+            ->paginate(min(max($request->integer('per_page', 10), 1), 50))
             ->withQueryString();
 
         return ApiResponse::paginated($invoices, InvoiceResource::class, 'Daftar tagihan.');

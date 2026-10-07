@@ -31,7 +31,7 @@ class BillingController extends Controller
                 'invoices', fn ($i) => $i->where('period', $period)->where('status', $status)
             ))
             ->orderBy('room_id')
-            ->paginate(ApiResponse::perPage())
+            ->paginate(min(max($request->integer('per_page', 10), 1), 50))
             ->withQueryString();
 
         return ApiResponse::paginated($tenancies, BillingTenantResource::class, "Status pembayaran penghuni periode {$period}.");
@@ -52,7 +52,7 @@ class BillingController extends Controller
             ->withSum(['invoices as total_paid' => fn ($q) => $scope($q)->where('invoices.status', 'paid')], 'amount')
             ->withSum(['invoices as total_unpaid' => fn ($q) => $scope($q)->where('invoices.status', '!=', 'paid')], 'amount')
             ->orderBy('number')
-            ->paginate(ApiResponse::perPage())
+            ->paginate(min(max($request->integer('per_page', 10), 1), 50))
             ->withQueryString();
 
         return ApiResponse::paginated($rooms, BillingRoomResource::class, 'Rekap tagihan per kamar.');

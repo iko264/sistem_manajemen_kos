@@ -26,7 +26,7 @@ class PaymentController extends Controller
             ->with(['invoice.tenancy.user:id,name,email', 'invoice.tenancy.room:id,number,type', 'verifier:id,name'])
             ->when($request->validated('status'), fn ($q, $v) => $q->where('status', $v))
             ->latest('id')
-            ->paginate(ApiResponse::perPage())
+            ->paginate(min(max($request->integer('per_page', 10), 1), 50))
             ->withQueryString();
 
         return ApiResponse::paginated($payments, PaymentResource::class, 'Daftar pembayaran.');
@@ -46,7 +46,7 @@ class PaymentController extends Controller
                         ? 'Tagihan ini sedang menunggu verifikasi pembayaran.'
                         : 'Tagihan ini sudah lunas.';
 
-                    return ApiResponse::error($msg, 422, ['invoice' => [$msg]]);
+                    return ApiResponse::error($msg, ['invoice' => [$msg]], 422);
                 }
 
                 $path = $request->file('proof')->store('payment-proofs', 'public');
@@ -90,7 +90,7 @@ class PaymentController extends Controller
             if ($locked->status !== 'pending') {
                 $msg = 'Pembayaran ini sudah diverifikasi sebelumnya.';
 
-                return ApiResponse::error($msg, 422, ['payment' => [$msg]]);
+                return ApiResponse::error($msg, ['payment' => [$msg]], 422);
             }
 
             $invoice = Invoice::whereKey($locked->invoice_id)->lockForUpdate()->firstOrFail();
