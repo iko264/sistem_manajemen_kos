@@ -3,9 +3,12 @@
 @section('title', 'Penghuni')
 
 @section('content')
-<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
-    <h1 class="h4 mb-0">Penghuni</h1>
-    <button type="button" class="btn btn-primary admin-only d-none" id="btnCheckin">+ Check-in</button>
+<div class="page-head">
+    <div>
+        <h1 class="h4"><span class="page-icon"><i class="bi bi-people"></i></span>Penghuni</h1>
+        <p class="page-sub">Riwayat penghunian, check-in, dan check-out.</p>
+    </div>
+    <button type="button" class="btn btn-primary admin-only d-none" id="btnCheckin"><i class="bi bi-box-arrow-in-right me-1"></i>Check-in</button>
 </div>
 
 <form id="filterForm" class="card card-body shadow-sm mb-3 admin-only d-none" novalidate>
@@ -41,7 +44,7 @@
 
 <div class="card shadow-sm">
     <div class="table-responsive">
-        <table class="table table-hover align-middle mb-0">
+        <table class="table table-hover align-middle mb-0 table-stack">
             <thead class="table-light">
                 <tr>
                     <th>Penghuni</th>
@@ -132,8 +135,8 @@
     if (window.KOS_REDIRECTING) return;
 
     const STATUS = {
-        active: { label: 'Aktif',   cls: 'bg-success' },
-        ended:  { label: 'Selesai', cls: 'bg-secondary' },
+                active: { label: 'Aktif',   cls: 'badge-soft-success', icon: 'bi-check-circle' },
+        ended:  { label: 'Selesai', cls: 'badge-soft-secondary', icon: 'bi-clock-history' },
     };
 
     const isAdmin = Auth.isAdmin();
@@ -179,7 +182,7 @@
         const params = { page: state.page };
         new FormData(filterForm).forEach((v, k) => { if (v !== '') params[k] = v; });
 
-        body.innerHTML = '<tr><td colspan="' + colspan + '" class="text-center text-muted py-4">Memuat...</td></tr>';
+        body.innerHTML = '<tr><td colspan="' + colspan + '" class="text-center text-muted py-4"><span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>Memuat...</td></tr>';
 
         try {
             const res = await api('/tenancies', { params });
@@ -197,7 +200,7 @@
         state.rows.clear();
 
         if (!rows.length) {
-            body.innerHTML = '<tr><td colspan="' + colspan + '" class="text-center text-muted py-4">Belum ada data penghuni.</td></tr>';
+            body.innerHTML = '<tr><td colspan="' + colspan + '" class="text-center empty-state"><i class="bi bi-people"></i>Belum ada data penghuni.</td></tr>';
             return;
         }
 
@@ -211,18 +214,19 @@
 
             let actions = '';
             if (isAdmin) {
-                actions = '<td class="text-end text-nowrap">' + (t.status === 'active'
+                actions = '<td class="text-end text-nowrap cell-actions">' + (t.status === 'active'
                     ? '<button type="button" class="btn btn-sm btn-outline-primary me-1" data-action="identity" data-id="' + t.id + '">Identitas</button>' +
                       '<button type="button" class="btn btn-sm btn-outline-danger" data-action="checkout" data-id="' + t.id + '">Check-out</button>'
                     : '') + '</td>';
             }
 
+            const ini = String(name).trim().split(/\s+/).slice(0, 2).map((w) => w.charAt(0).toUpperCase()).join('');
             return '<tr>' +
-                '<td><div class="fw-semibold">' + esc(name) + '</div><div class="small text-muted">' + esc(email) + '</div></td>' +
-                '<td><span class="fw-semibold">' + esc(room) + '</span> <span class="small text-muted text-capitalize">' + esc(type) + '</span></td>' +
-                '<td>' + esc(fmtDate(t.start_date)) + '</td>' +
-                '<td>' + esc(fmtDate(t.end_date)) + '</td>' +
-                '<td><span class="badge ' + st.cls + '">' + esc(st.label) + '</span></td>' +
+                '<td data-label="Penghuni"><div class="d-flex align-items-center gap-2 text-start"><span class="avatar-sm">' + esc(ini) + '</span><div><div class="fw-semibold">' + esc(name) + '</div><div class="small text-muted">' + esc(email) + '</div></div></div></td>' +
+                '<td data-label="Kamar"><span class="fw-semibold">' + esc(room) + '</span> <span class="small text-muted text-capitalize">' + esc(type) + '</span></td>' +
+                '<td data-label="Tanggal masuk">' + esc(fmtDate(t.start_date)) + '</td>' +
+                '<td data-label="Tanggal keluar">' + esc(fmtDate(t.end_date)) + '</td>' +
+                '<td data-label="Status"><span class="badge badge-soft ' + st.cls + '"><i class="bi ' + (st.icon || 'bi-circle') + '"></i>' + esc(st.label) + '</span></td>' +
                 actions + '</tr>';
         }).join('');
     }

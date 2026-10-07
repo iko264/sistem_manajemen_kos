@@ -207,3 +207,49 @@ main > *:nth-child(4) { animation-delay: .15s; }
     border: 0; background: transparent; color: #5b7083;
 }
 .pw-toggle:hover { color: #0284c7; }
+/* Header halaman */
+.page-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .75rem; margin-bottom: 1.25rem; }
+.page-head h1 { display: flex; align-items: center; gap: .65rem; margin: 0; }
+.page-icon {
+    width: 42px; height: 42px; border-radius: .85rem; font-size: 1.25rem; color: #fff;
+    background: linear-gradient(135deg, #0ea5e9, #14b8a6);
+    display: inline-flex; align-items: center; justify-content: center;
+    box-shadow: 0 8px 18px rgba(14, 165, 233, .35);
+}
+.page-sub { color: #5b7083; font-size: .9rem; margin: .2rem 0 0; }
+
+/* Badge status lembut */
+.badge-soft { display: inline-flex; align-items: center; gap: .35rem; }
+.badge-soft-success { background: #d1fae5; color: #047857; }
+.badge-soft-danger { background: #fee2e2; color: #b91c1c; }
+.badge-soft-warning { background: #fef3c7; color: #b45309; }
+.badge-soft-secondary { background: #e2e8f0; color: #475569; }
+.badge-soft-info { background: #e0f2fe; color: #075985; }
+
+/* Avatar kecil dan keadaan kosong */
+.avatar-sm {
+    width: 38px; height: 38px; border-radius: 50%; flex-shrink: 0;
+    background: linear-gradient(135deg, #bae6fd, #99f6e4); color: #075985;
+    font-weight: 700; font-size: .8rem;
+    display: inline-flex; align-items: center; justify-content: center;
+}
+.empty-state { padding: 2rem 1rem; color: #5b7083; }
+.empty-state i { display: block; font-size: 2rem; color: #7dd3fc; margin-bottom: .4rem; }
+
+/* Tabel menjadi kartu di layar HP */
+@media (max-width: 767.98px) {
+    .table-stack thead { display: none; }
+    .table-stack, .table-stack tbody, .table-stack tr, .table-stack td { display: block; width: 100%; }
+    .table-stack tr { padding: .85rem 1rem; border-bottom: 1px solid #e3f1fa; }
+    .table-stack td {
+        display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+        padding: .3rem 0 !important; border: 0; text-align: right;
+    }
+    .table-stack td::before {
+        content: attr(data-label); flex-shrink: 0; text-align: left;
+        font-weight: 600; font-size: .8rem; color: #5b7083;
+    }
+    .table-stack td.cell-actions { justify-content: flex-end; }
+    .table-stack td.cell-actions::before, .table-stack td[colspan]::before { content: none; }
+    .table-stack td[colspan] { justify-content: center; }
+}

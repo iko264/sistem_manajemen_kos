@@ -3,9 +3,12 @@
 @section('title', 'Kamar')
 
 @section('content')
-<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
-    <h1 class="h4 mb-0">Daftar Kamar</h1>
-    <button type="button" class="btn btn-primary admin-only d-none" id="btnAdd">+ Tambah Kamar</button>
+<div class="page-head">
+    <div>
+        <h1 class="h4"><span class="page-icon"><i class="bi bi-door-open"></i></span>Daftar Kamar</h1>
+        <p class="page-sub">Pantau status, tipe, dan harga seluruh kamar.</p>
+    </div>
+    <button type="button" class="btn btn-primary admin-only d-none" id="btnAdd"><i class="bi bi-plus-lg me-1"></i>Tambah Kamar</button>
 </div>
 
 <form id="filterForm" class="card card-body shadow-sm mb-3" novalidate>
@@ -50,7 +53,7 @@
 
 <div class="card shadow-sm">
     <div class="table-responsive">
-        <table class="table table-hover align-middle mb-0">
+        <table class="table table-hover align-middle mb-0 table-stack">
             <thead class="table-light">
                 <tr>
                     <th>No. Kamar</th>
@@ -138,9 +141,9 @@
     if (window.KOS_REDIRECTING) return;
 
     const STATUS = {
-        available:   { label: 'Tersedia',  cls: 'bg-success' },
-        occupied:    { label: 'Terisi',    cls: 'bg-danger' },
-        maintenance: { label: 'Perbaikan', cls: 'bg-warning text-dark' },
+        available:   { label: 'Tersedia',  cls: 'badge-soft-success', icon: 'bi-check-circle' },
+        occupied:    { label: 'Terisi',    cls: 'badge-soft-danger', icon: 'bi-person-fill' },
+        maintenance: { label: 'Perbaikan', cls: 'badge-soft-warning', icon: 'bi-tools' },
     };
 
     const isAdmin = Auth.isAdmin();
@@ -163,7 +166,7 @@
         const params = { page: state.page };
         new FormData(filterForm).forEach((v, k) => { if (v !== '') params[k] = v; });
 
-        body.innerHTML = '<tr><td colspan="' + colspan + '" class="text-center text-muted py-4">Memuat...</td></tr>';
+        body.innerHTML = '<tr><td colspan="' + colspan + '" class="text-center text-muted py-4"><span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>Memuat...</td></tr>';
 
         try {
             const res = await api('/rooms', { params });
@@ -181,7 +184,7 @@
         state.rooms.clear();
 
         if (!rooms.length) {
-            body.innerHTML = '<tr><td colspan="' + colspan + '" class="text-center text-muted py-4">Tidak ada kamar yang cocok.</td></tr>';
+            body.innerHTML = '<tr><td colspan="' + colspan + '" class="text-center empty-state"><i class="bi bi-inbox"></i>Tidak ada kamar yang cocok.</td></tr>';
             return;
         }
 
@@ -189,16 +192,16 @@
             state.rooms.set(r.id, r);
             const st = STATUS[r.status] || { label: r.status, cls: 'bg-secondary' };
             const actions = isAdmin
-                ? '<td class="text-end text-nowrap">' +
+                ? '<td class="text-end text-nowrap cell-actions">' +
                   '<button type="button" class="btn btn-sm btn-outline-primary me-1" data-action="edit" data-id="' + r.id + '">Edit</button>' +
                   '<button type="button" class="btn btn-sm btn-outline-danger" data-action="delete" data-id="' + r.id + '">Hapus</button></td>'
                 : '';
             return '<tr>' +
-                '<td class="fw-semibold">' + esc(r.number) + '</td>' +
-                '<td class="text-capitalize">' + esc(r.type) + '</td>' +
-                '<td>' + esc(rupiah(r.price)) + '</td>' +
-                '<td><span class="badge ' + st.cls + '">' + esc(st.label) + '</span></td>' +
-                '<td class="text-muted small">' + esc(r.description || '-') + '</td>' +
+                                '<td data-label="No. Kamar" class="fw-semibold">' + esc(r.number) + '</td>' +
+                '<td data-label="Tipe" class="text-capitalize">' + esc(r.type) + '</td>' +
+                '<td data-label="Harga / bulan">' + esc(rupiah(r.price)) + '</td>' +
+                '<td data-label="Status"><span class="badge badge-soft ' + st.cls + '"><i class="bi ' + (st.icon || 'bi-circle') + '"></i>' + esc(st.label) + '</span></td>' +
+                '<td data-label="Deskripsi" class="text-muted small">' + esc(r.description || '-') + '</td>' +
                 actions + '</tr>';
         }).join('');
     }
