@@ -8,7 +8,7 @@
     <button type="button" class="btn btn-primary admin-only d-none" id="btnCheckin">+ Check-in</button>
 </div>
 
-<form id="filterForm" class="card card-body shadow-sm mb-3" novalidate>
+<form id="filterForm" class="card card-body shadow-sm mb-3 admin-only d-none" novalidate>
     <div class="row g-2">
         <div class="col-12 col-md-4 admin-only d-none">
             <input type="text" class="form-control" name="search" placeholder="Cari nama penghuni">
@@ -25,7 +25,7 @@
                 <option value="">Semua kamar</option>
             </select>
         </div>
-        <div class="col-6 col-md-1">
+        <div class="col-6 col-md-1 admin-only d-none">
             <select class="form-select" name="per_page" aria-label="Jumlah per halaman">
                 <option value="10">10</option>
                 <option value="25">25</option>
