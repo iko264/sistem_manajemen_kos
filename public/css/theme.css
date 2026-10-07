@@ -124,3 +124,55 @@ main > *:nth-child(4) { animation-delay: .15s; }
     main > * { animation: none; }
     .btn { transition: none; }
 }
+/* Indikator loading API */
+.api-progress {
+    position: fixed; top: 0; left: 0; width: 100%; height: 3px; z-index: 2000;
+    background: linear-gradient(90deg, #38bdf8, #14b8a6, #38bdf8);
+    background-size: 200% 100%;
+    opacity: 0; transform: scaleX(0); transform-origin: left;
+    transition: opacity .25s, transform .5s;
+    pointer-events: none;
+}
+.api-progress.active { opacity: 1; transform: scaleX(.85); animation: progressSlide 1.2s linear infinite; }
+@keyframes progressSlide { to { background-position: -200% 0; } }
+
+/* Toast */
+.toast-stack {
+    position: fixed; top: 4.6rem; right: 1rem; z-index: 2100;
+    width: min(380px, calc(100vw - 2rem));
+    display: flex; flex-direction: column; gap: .6rem;
+    pointer-events: none;
+}
+.app-toast {
+    pointer-events: auto;
+    display: flex; align-items: flex-start; gap: .7rem;
+    padding: .85rem 1rem; font-size: .92rem;
+    background: #fff; border-radius: .9rem; border-left: 5px solid #0ea5e9;
+    box-shadow: 0 14px 34px rgba(3, 105, 161, .22);
+    animation: toastIn .3s ease both;
+    transition: opacity .25s, transform .25s;
+}
+.app-toast.hide { opacity: 0; transform: translateX(16px); }
+.app-toast > i { font-size: 1.2rem; margin-top: .05rem; color: #0284c7; }
+.app-toast-text { flex: 1; word-break: break-word; }
+.app-toast .btn-close { font-size: .65rem; margin-top: .25rem; }
+.app-toast-success { border-left-color: #14b8a6; }
+.app-toast-success > i { color: #0d9488; }
+.app-toast-danger { border-left-color: #ef4444; }
+.app-toast-danger > i { color: #dc2626; }
+.app-toast-warning { border-left-color: #f59e0b; }
+.app-toast-warning > i { color: #d97706; }
+@keyframes toastIn { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: none; } }
+
+/* Navbar: avatar dan peran */
+.nav-avatar {
+    width: 34px; height: 34px; border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+    background: rgba(255, 255, 255, .22); border: 1px solid rgba(255, 255, 255, .55);
+    font-weight: 700; font-size: .8rem;
+}
+.nav-role { background: rgba(255, 255, 255, .2); color: #fff; text-transform: capitalize; font-weight: 600; }
+#nav-user .btn-outline-light { border-radius: .65rem; }
+@media (prefers-reduced-motion: reduce) {
+    .api-progress.active, .app-toast { animation: none; }
+}
