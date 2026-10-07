@@ -4,13 +4,19 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title', 'Beranda') | Manajemen Kos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="{{ asset('css/theme.css') }}?v={{ filemtime(public_path('css/theme.css')) }}" rel="stylesheet">
+    @stack('styles')
 </head>
 {{-- page_auth: 'required' (default, wajib login) atau 'guest' (halaman login/register) --}}
-<body class="bg-light" data-page-auth="@yield('page_auth', 'required')">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<body data-page-auth="@yield('page_auth', 'required')">
+    <nav class="navbar navbar-expand-lg navbar-dark app-navbar sticky-top">
         <div class="container">
-            <a class="navbar-brand" href="/">Manajemen Kos</a>
+            <a class="navbar-brand" href="/"><i class="bi bi-water me-2"></i>Manajemen Kos</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu"
                     aria-controls="navMenu" aria-expanded="false" aria-label="Buka menu">
                 <span class="navbar-toggler-icon"></span>
