@@ -4,5 +4,6 @@
 <script>
     window.NAV_ITEMS = [
         { label: 'Kamar', href: '/rooms', roles: ['admin', 'tenant'] },
+        { label: 'Penghuni', href: '/tenancies', roles: ['admin', 'tenant'] },
     ];
 </script>
