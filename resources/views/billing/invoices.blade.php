@@ -1,35 +1,42 @@
 @extends('layouts.app')
 @section('title', 'Tagihan')
 @section('content')
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h4 class="mb-0" id="page-title">Tagihan Saya</h4>
-    <button class="btn btn-primary d-none admin-only" id="btn-generate">Generate Tagihan</button>
+<div class="page-head">
+    <div>
+        <h1 class="h4"><span class="page-icon"><i class="bi bi-receipt"></i></span><span id="page-title">Tagihan Saya</span></h1>
+        <p class="page-sub">Pantau status, jatuh tempo, dan pembayaran tagihan.</p>
+    </div>
+    <button class="btn btn-primary d-none admin-only" id="btn-generate"><i class="bi bi-lightning-charge me-1"></i>Generate Tagihan</button>
 </div>
 
-<form id="filter" class="row g-2 mb-3">
-    <div class="col-6 col-md-2">
-        <select name="status" class="form-select">
-            <option value="">Semua status</option><option value="unpaid">Belum dibayar</option>
-            <option value="pending">Menunggu verifikasi</option><option value="paid">Lunas</option>
-        </select>
+<form id="filter" class="card card-body mb-3">
+    <div class="row g-2 align-items-center">
+        <div class="col-6 col-md-3">
+            <select name="status" class="form-select">
+                <option value="">Semua status</option><option value="unpaid">Belum dibayar</option>
+                <option value="pending">Menunggu verifikasi</option><option value="paid">Lunas</option>
+            </select>
+        </div>
+        <div class="col-6 col-md-2"><input type="month" name="period" class="form-control" placeholder="YYYY-MM"></div>
+        <div class="col-6 col-md-3 d-none admin-only"><select name="room_id" class="form-select" id="filter-room"><option value="">Semua kamar</option></select></div>
+        <div class="col-6 col-md-2">
+            <div class="form-check"><input class="form-check-input" type="checkbox" name="overdue" value="1" id="f-overdue"><label class="form-check-label" for="f-overdue">Terlambat saja</label></div>
+        </div>
+        <div class="col-12 col-md-2 d-grid"><button class="btn btn-dark"><i class="bi bi-funnel me-1"></i>Filter</button></div>
     </div>
-    <div class="col-6 col-md-2"><input type="month" name="period" class="form-control" placeholder="YYYY-MM"></div>
-    <div class="col-6 col-md-3 d-none admin-only"><select name="room_id" class="form-select" id="filter-room"><option value="">Semua kamar</option></select></div>
-    <div class="col-6 col-md-2 d-flex align-items-center">
-        <div class="form-check"><input class="form-check-input" type="checkbox" name="overdue" value="1" id="f-overdue"><label class="form-check-label" for="f-overdue">Terlambat saja</label></div>
-    </div>
-    <div class="col-12 col-md-2 d-grid"><button class="btn btn-outline-secondary">Filter</button></div>
 </form>
 
-<div class="card shadow-sm"><div class="table-responsive">
-    <table class="table table-hover align-middle mb-0">
-        <thead class="table-light"><tr>
-            <th>Periode</th><th class="d-none admin-only">Penghuni</th><th>Kamar</th><th>Jumlah</th><th>Jatuh tempo</th><th>Status</th><th class="text-end">Aksi</th>
-        </tr></thead>
-        <tbody id="rows"><tr><td colspan="7" class="text-center text-muted py-4">Memuat...</td></tr></tbody>
-    </table>
-</div></div>
-<div class="mt-3" id="pagination"></div>
+<div class="card">
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0 table-stack">
+            <thead class="table-light"><tr>
+                <th>Periode</th><th class="d-none admin-only">Penghuni</th><th>Kamar</th><th>Jumlah</th><th>Jatuh tempo</th><th>Status</th><th class="text-end">Aksi</th>
+            </tr></thead>
+            <tbody id="rows"><tr><td colspan="7" class="text-center text-muted py-4"><span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>Memuat...</td></tr></tbody>
+        </table>
+    </div>
+    <div class="card-footer" id="pagination"></div>
+</div>
 
 {{-- Modal upload bukti (tenant) --}}
 <div class="modal fade" id="payModal" tabindex="-1"><div class="modal-dialog">
@@ -41,7 +48,7 @@
             <div class="mb-3"><label class="form-label">Jumlah dibayar (Rp)</label><input type="number" name="amount" class="form-control" min="1"></div>
             <div class="mb-3"><label class="form-label">Bukti pembayaran (JPG/PNG, maks 2MB)</label><input type="file" name="proof" class="form-control" accept="image/jpeg,image/png"></div>
         </div>
-        <div class="modal-footer"><button type="button" class="btn btn-light" data-bs-dismiss="modal">Batal</button><button class="btn btn-primary" id="pay-submit">Kirim Bukti</button></div>
+        <div class="modal-footer"><button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Batal</button><button class="btn btn-primary" id="pay-submit"><i class="bi bi-upload me-1"></i>Kirim Bukti</button></div>
     </form>
 </div></div>
 
@@ -53,14 +60,18 @@
             <div class="mb-3"><label class="form-label">Periode (YYYY-MM)</label><input type="month" name="period" class="form-control" placeholder="YYYY-MM"></div>
             <p class="small text-muted mb-0">Dibuat untuk semua hunian aktif yang belum punya tagihan periode ini. Jatuh tempo: tanggal 10.</p>
         </div>
-        <div class="modal-footer"><button type="button" class="btn btn-light" data-bs-dismiss="modal">Batal</button><button class="btn btn-primary">Generate</button></div>
+        <div class="modal-footer"><button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Batal</button><button class="btn btn-primary"><i class="bi bi-lightning-charge me-1"></i>Generate</button></div>
     </form>
 </div></div>
 @endsection
 
 @push('scripts')
 <script>
-const ST = { unpaid: ['danger', 'Belum dibayar'], pending: ['warning text-dark', 'Menunggu verifikasi'], paid: ['success', 'Lunas'] };
+const ST = {
+    unpaid: ['badge-soft-danger', 'Belum dibayar', 'bi-x-circle'],
+    pending: ['badge-soft-warning', 'Menunggu verifikasi', 'bi-hourglass-split'],
+    paid: ['badge-soft-success', 'Lunas', 'bi-check-circle'],
+};
 const fmtDate = (d) => d ? new Date(d + 'T00:00:00').toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' }) : '-';
 const payModal = new bootstrap.Modal(document.getElementById('payModal'));
 const genModal = new bootstrap.Modal(document.getElementById('genModal'));
@@ -79,21 +90,24 @@ async function load() {
 
 function render() {
     const admin = Api.isAdmin(), tbody = document.getElementById('rows');
-    if (!items.length) { tbody.innerHTML = '<tr><td colspan="7" class="text-center text-muted py-4">Tidak ada tagihan.</td></tr>'; return; }
+    if (!items.length) {
+        tbody.innerHTML = '<tr><td colspan="7" class="text-center empty-state"><i class="bi bi-receipt"></i>Tidak ada tagihan.</td></tr>';
+        return;
+    }
     tbody.innerHTML = items.map((i) => {
-        const [cls, label] = ST[i.status] || ['secondary', i.status];
+        const [cls, label, icon] = ST[i.status] || ['badge-soft-secondary', i.status, 'bi-circle'];
         const rejected = (i.payments || []).filter((p) => p.status === 'rejected').slice(-1)[0];
         const rejNote = i.status === 'unpaid' && rejected
             ? `<div class="small text-danger mt-1">Ditolak: ${Api.esc(rejected.note)}</div>` : '';
         return `<tr>
-            <td class="fw-semibold">${Api.esc(i.period)}</td>
-            ${admin ? `<td>${Api.esc(i.tenancy?.user?.name)}</td>` : ''}
-            <td>${Api.esc(i.tenancy?.room?.number)}</td>
-            <td>${Api.rupiah(i.amount)}</td>
-            <td>${fmtDate(i.due_date)}</td>
-            <td><span class="badge text-bg-${cls}">${label}</span>
-                ${i.is_overdue ? '<span class="badge text-bg-dark ms-1">Terlambat</span>' : ''}${rejNote}</td>
-            <td class="text-end">${!admin && i.status === 'unpaid' ? `<button class="btn btn-sm btn-primary" data-pay="${i.id}">Bayar</button>` : ''}</td>
+            <td data-label="Periode" class="fw-semibold">${Api.esc(i.period)}</td>
+            ${admin ? `<td data-label="Penghuni">${Api.esc(i.tenancy?.user?.name)}</td>` : ''}
+            <td data-label="Kamar">${Api.esc(i.tenancy?.room?.number)}</td>
+            <td data-label="Jumlah">${Api.rupiah(i.amount)}</td>
+            <td data-label="Jatuh tempo">${fmtDate(i.due_date)}</td>
+            <td data-label="Status"><span class="badge badge-soft ${cls}"><i class="bi ${icon}"></i>${label}</span>
+                ${i.is_overdue ? '<span class="badge badge-soft badge-soft-danger ms-1"><i class="bi bi-exclamation-triangle"></i>Terlambat</span>' : ''}${rejNote}</td>
+            <td data-label="Aksi" class="text-end cell-actions">${!admin && i.status === 'unpaid' ? `<button class="btn btn-sm btn-primary" data-pay="${i.id}"><i class="bi bi-wallet2 me-1"></i>Bayar</button>` : ''}</td>
         </tr>`;
     }).join('');
     tbody.querySelectorAll('[data-pay]').forEach((b) => b.addEventListener('click', () => openPay(items.find((i) => i.id == b.dataset.pay))));
