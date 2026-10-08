@@ -262,7 +262,7 @@ main > *:nth-child(4) { animation-delay: .15s; }
     display: inline-flex; align-items: center; justify-content: center;
 }
 .stat-label { font-size: .84rem; color: #5b7083; }
-.stat-value { font-size: 1.55rem; font-weight: 700; line-height: 1.15; }
+.stat-value { font-size: clamp(1rem, 4.6vw, 1.55rem); font-weight: 700; line-height: 1.15; white-space: nowrap; }
 .stat-primary .stat-icon { background: #e0f2fe; color: #0284c7; }
 .stat-primary .stat-value { color: #0369a1; }
 .stat-success .stat-icon { background: #d1fae5; color: #047857; }
@@ -273,6 +273,21 @@ main > *:nth-child(4) { animation-delay: .15s; }
 .stat-warning .stat-value { color: #b45309; }
 .stat-dark .stat-icon { background: #e2e8f0; color: #334155; }
 .stat-dark .stat-value { color: #0f2a43; }
+.stat-card .card-body > div { min-width: 0; flex: 1; }   
+
+.stat-card .card-body {
+    flex-wrap: wrap;
+    gap: .5rem .75rem !important;     
+}
+.stat-card .card-body > div {
+    flex: 1 1 0;                       
+    min-width: min-content;
+}
+
+@media (max-width: 575.98px) {
+    .stat-icon { width: 40px; height: 40px; font-size: 1.15rem; border-radius: .8rem; }
+    .stat-label { font-size: .78rem; }
+}
 
 /* Skeleton saat memuat */
 .skeleton {
