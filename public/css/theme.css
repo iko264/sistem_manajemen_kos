@@ -283,3 +283,14 @@ main > *:nth-child(4) { animation-delay: .15s; }
 }
 @keyframes shimmer { to { background-position: -200% 0; } }
 @media (prefers-reduced-motion: reduce) { .skeleton { animation: none; } }
+/* Badge bawaan Bootstrap (text-bg-*) diubah menjadi gaya lembut agar halaman lain ikut serasi */
+.badge.text-bg-danger { background-color: #fee2e2 !important; color: #b91c1c !important; }
+.badge.text-bg-success { background-color: #d1fae5 !important; color: #047857 !important; }
+.badge.text-bg-warning { background-color: #fef3c7 !important; color: #b45309 !important; }
+.badge.text-bg-secondary { background-color: #e2e8f0 !important; color: #475569 !important; }
+.badge.text-bg-info, .badge.text-bg-primary { background-color: #e0f2fe !important; color: #075985 !important; }
+.badge.text-bg-dark { background-color: #cbd5e1 !important; color: #0f2a43 !important; }
+
+/* Judul halaman yang belum memakai page-head */
+h4 { font-weight: 700; color: #0c4a6e; }
+.card-header { background: #fff; border-bottom-color: #e3f1fa; }
