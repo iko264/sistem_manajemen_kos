@@ -253,3 +253,33 @@ main > *:nth-child(4) { animation-delay: .15s; }
     .table-stack td.cell-actions::before, .table-stack td[colspan]::before { content: none; }
     .table-stack td[colspan] { justify-content: center; }
 }
+/* Kartu statistik dashboard */
+.stat-link { display: block; text-decoration: none; color: inherit; height: 100%; }
+.stat-card { transition: transform .18s, box-shadow .18s; }
+.stat-link:hover .stat-card { transform: translateY(-3px); box-shadow: 0 16px 34px rgba(3, 105, 161, .16) !important; }
+.stat-icon {
+    width: 48px; height: 48px; border-radius: .95rem; font-size: 1.35rem; flex-shrink: 0;
+    display: inline-flex; align-items: center; justify-content: center;
+}
+.stat-label { font-size: .84rem; color: #5b7083; }
+.stat-value { font-size: 1.55rem; font-weight: 700; line-height: 1.15; }
+.stat-primary .stat-icon { background: #e0f2fe; color: #0284c7; }
+.stat-primary .stat-value { color: #0369a1; }
+.stat-success .stat-icon { background: #d1fae5; color: #047857; }
+.stat-success .stat-value { color: #047857; }
+.stat-danger .stat-icon { background: #fee2e2; color: #b91c1c; }
+.stat-danger .stat-value { color: #b91c1c; }
+.stat-warning .stat-icon { background: #fef3c7; color: #b45309; }
+.stat-warning .stat-value { color: #b45309; }
+.stat-dark .stat-icon { background: #e2e8f0; color: #334155; }
+.stat-dark .stat-value { color: #0f2a43; }
+
+/* Skeleton saat memuat */
+.skeleton {
+    border-radius: .7rem;
+    background: linear-gradient(90deg, #e7f4fd 25%, #f4fbff 50%, #e7f4fd 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.3s linear infinite;
+}
+@keyframes shimmer { to { background-position: -200% 0; } }
+@media (prefers-reduced-motion: reduce) { .skeleton { animation: none; } }
