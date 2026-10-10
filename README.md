@@ -12,7 +12,7 @@
 
 | No | Nama Lengkap | NIM | Shift Awal | Shift Akhir | Jobdesk / Kontribusi | Link Video Penjelasan |
 |---|---|---|---|---|---|---|
-| 1 | WINDI SULAIMAN ISMANSA | H1H024005 | Shift A | Shift C | Tagihan, Pembayaran, Rekap Billing, dan Dashboard Admin | [YouTube](https://...) |
+| 1 | WINDI SULAIMAN ISMANSA | H1H024005 | Shift A | Shift C | Tagihan, Pembayaran, Rekap Billing, dan Dashboard Admin | [YouTube](https://youtu.be/5tUjMaZ9JOM) |
 | 2 | Refan Nur Chandra | H1H024029 | Shift D | Shift C | Penghuni dan Penghunian | [YouTube](https://drive.google.com/file/d/1axSGsearc0gMrE36VZa1-RCmtJ-Gxlg9/view) |
 | 3 | Hammed Jastiko Apuranam | H1H024030 | Shift A | Shift C  | Fondasi proyek, Autentikasi , dan CRUD Kamar | [YouTube](https://youtu.be/4XZbl2IWk4c?si=SFHbfeD2o3pkCzgg) |
 
